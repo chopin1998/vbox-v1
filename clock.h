@@ -2,7 +2,7 @@
 #define _CLOCK_H 1
 
 
-#define RTC_INTERVAL (8192 - 1)
+#define RTC_INTERVAL (32768 - 1)
 
 
 void clock_pll_init(void);
