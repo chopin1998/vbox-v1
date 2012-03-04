@@ -1,0 +1,22 @@
+****************************************************************
+
+V-BOX is a sub-system for your biking life which made you more happy.
+
+      verion 1 include:
+      	     mcu
+	     display
+	     gps
+	     hall-type speed sensor(s)
+	     imu-type posture sensor(s)
+	     sd card
+	     battery
+
+      version 2 add:
+      	     GPRS/3G modem
+	     better outside case
+
+      version 3 enable:
+      	     modularized design
+	     online system
+	     mid-range team system
+	     EMG module  
