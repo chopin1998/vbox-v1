@@ -14,5 +14,10 @@
 #define     TFT_CS_bm  PIN1_bm
 #define     SD_CS_bm   PIN0_bm
 
+#define     TFT_SPI_MOSI_bm PIN5_bm
+#define     TFT_SPI_MISO_bm PIN6_bm
+#define     TFT_SPI_CLK_bm  PIN7_bm
+
+
 
 #endif

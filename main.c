@@ -5,7 +5,7 @@
 #include "uart_process.h"
 #include "io.h"
 
-
+#include "disp.h"
 
 void init_io(void)
 {
@@ -15,9 +15,6 @@ void init_io(void)
     
     // PORTC.DIRSET = PIN7_bm;
     // PORTCFG.CLKEVOUT |= PORTCFG_CLKOUT_PC7_gc;
-
-    TFT_SD_PORT.DIRSET = TFT_BL_bm | TFT_RST_bm | TFT_RS_bm | TFT_CS_bm | SD_CS_bm;
-    TFT_SD_PORT.OUTCLR = TFT_BL_bm;
 }
 
 
@@ -37,20 +34,28 @@ void init_uart(void)
     fdevopen(_uart_sendc, NULL);
 }
 
-
 int main(void)
 {
+    unsigned char buf[32];
+    
     clock_pll_init();
     clock_rtc_init();
     
     init_io();
     init_uart();
     
+    disp_init();
+    
     PMIC.CTRL |= PMIC_MEDLVLEX_bm | PMIC_LOLVLEX_bm | PMIC_RREN_bm;
     sei();
 
     clock_interval_clear();
-    
+
+    for (unsigned char i=0;i<100;i++)
+    {
+        disp_pixel(i, 10, 0x0770);
+    }
+
     for (;;)
     {
         uart_process_tick(&Q_BT, &LB_BT, uart_process_lb_bt, STX, ETX);

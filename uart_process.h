@@ -17,7 +17,7 @@ typedef struct
     unsigned char buf[LINE_BUF_MAX];
     unsigned char index;
 } LINE_BUF_t;
-LINE_BUF_t LB_BT, LB_WL;
+LINE_BUF_t LB_BT;
 
 
 void uart_process_init_linebuf(LINE_BUF_t *lb_t);
@@ -27,8 +27,6 @@ signed char uart_process_tick(RAW_QUEUE_t *q, LINE_BUF_t *lb,
 
 
 void uart_process_lb_bt(void);
-void uart_process_lb_wl(void);
-
 
 
 #endif

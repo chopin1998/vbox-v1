@@ -108,6 +108,7 @@ void uart_process_lb_bt(void)
         printf("UNKNOW FUNC: %s\n", para_head->para);
     }
 
+    
     p_list_clear(para_head);
 }
 
