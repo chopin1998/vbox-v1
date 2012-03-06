@@ -78,10 +78,6 @@ void uart_process_lb_bt(void)
     char *p = NULL;
     unsigned char p_count = 0;
 
-    unsigned char reg, val;
-    unsigned char rev;
-    signed int offset;
-
     para_head = (P_LIST_t *)malloc(sizeof(P_LIST_t));
 
     p = strtok(&LB_BT.buf[0], "|");

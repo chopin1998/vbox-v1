@@ -44,17 +44,12 @@ int main(void)
     init_io();
     init_uart();
     
-    disp_init();
+    st7735_init();
     
     PMIC.CTRL |= PMIC_MEDLVLEX_bm | PMIC_LOLVLEX_bm | PMIC_RREN_bm;
     sei();
 
     clock_interval_clear();
-
-    for (unsigned char i=0;i<100;i++)
-    {
-        disp_pixel(i, 10, 0x0770);
-    }
 
     for (;;)
     {

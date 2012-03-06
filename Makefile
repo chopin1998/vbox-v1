@@ -9,7 +9,7 @@ MCU = atxmega128a1
 FORMAT = ihex
 TARGET = main
 SRC = main.c clock.c
-SRC += uart.c uart_process.c util.c disp.c
+SRC += uart.c uart_process.c util.c disp.c st7735.c
 ASRC = 
 OPT = 2
 
