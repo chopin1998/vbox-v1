@@ -128,7 +128,7 @@ void st7735_pixel(unsigned char x, unsigned char y, unsigned short color)
     st7735_set_addrwindow(x, y, x+1, y+1);
 
     st7735_writecmd(ST7735_RAMWR); // write to RAM
+    
     st7735_writedat(color >> 8);
-
     st7735_writedat(color);
 }
