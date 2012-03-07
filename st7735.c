@@ -133,12 +133,12 @@ void st7735_pixel(unsigned char x, unsigned char y, unsigned short color)
     st7735_writedat(color);
 }
 
-void st7735_bitmap(unsigned char x, unsigned char y,
-                   unsigned char width, unsigned char height, unsigned short *bm)
+void st7735_img(unsigned char x, unsigned char y,
+                unsigned char width, unsigned char height, unsigned short *bm)
 {
     for (unsigned char i=0; i<height; i++)
     {
-        st7735_set_addrwindow(x, y+i, x+width, y+i+1);
+        st7735_set_addrwindow(x, y+i, x+width, y+i);
         st7735_writecmd(ST7735_RAMWR);
         for (unsigned char j=0; j<width; j++)
         {
@@ -146,6 +146,38 @@ void st7735_bitmap(unsigned char x, unsigned char y,
             st7735_writedat(*bm);
 
             bm++;
+        }
+    }
+
+    st7735_writecmd(ST7735_NOP);
+}
+
+void st7735_bitmap(unsigned char x, unsigned char y,
+                   BM_t *bm, unsigned char index,
+                   unsigned short color)
+{
+    unsigned char c;
+    
+    for (unsigned char i=0; i<bm->width; i++)
+    {
+        st7735_set_addrwindow(x+i, y, x+i, y+bm->height);
+        st7735_writecmd(ST7735_RAMWR);
+
+        c = *(bm->bitmap+index*bm->width+i);
+        printf("c-> 0x%02x\n", c);
+        for (unsigned char j=0; j<bm->height; j++)
+        {   
+            if (c & 0x01)
+            {
+                st7735_writedat(color>>8);
+                st7735_writedat(color);
+            }
+            else
+            {
+                st7735_writedat(0x00);
+                st7735_writedat(0x00);
+            }
+            c>>=1;
         }
     }
 

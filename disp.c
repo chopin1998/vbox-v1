@@ -153,3 +153,4 @@ unsigned short disp_16color(unsigned char r, unsigned char g, unsigned char b)
 {
     return  (r & 0xf8) << 8 | (g & 0xfc) << 3 | b >> 3;
 }
+

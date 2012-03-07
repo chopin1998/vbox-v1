@@ -81,6 +81,13 @@
 #define ST7735_GAMCTRN1 0xe1
 
 
+typedef struct 
+{
+    unsigned char width;
+    unsigned char height;
+    const unsigned char *bitmap;
+} BM_t;
+
 void st7735_writecmd(unsigned char cmd);
 void st7735_writedat(unsigned char dat);
 
@@ -91,7 +98,12 @@ void st7735_set_addrwindow(unsigned char x0, unsigned char y0,
 void st7735_fill_16(unsigned short color);
 void st7735_pixel(unsigned char x, unsigned char y, unsigned short color);
 
+void st7735_img(unsigned char x, unsigned char y,
+                   unsigned char width, unsigned char height,
+                   unsigned short *bm);
+
 void st7735_bitmap(unsigned char x, unsigned char y,
-                   unsigned char width, unsigned char height, unsigned short *bm);
+                   BM_t *bm, unsigned char index,
+                   unsigned short color);
 
 #endif
