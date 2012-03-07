@@ -85,7 +85,7 @@ void st7735_init(void)
     st7735_writecmd(ST7735_DISPON);
     _delay_ms(1);
     
-    st7735_fill_16(0xf800);
+    st7735_fill_16(0x0000);
 }
 
 void st7735_set_addrwindow(unsigned char x0, unsigned char y0,
@@ -131,4 +131,23 @@ void st7735_pixel(unsigned char x, unsigned char y, unsigned short color)
     
     st7735_writedat(color >> 8);
     st7735_writedat(color);
+}
+
+void st7735_bitmap(unsigned char x, unsigned char y,
+                   unsigned char width, unsigned char height, unsigned short *bm)
+{
+    for (unsigned char i=0; i<height; i++)
+    {
+        st7735_set_addrwindow(x, y+i, x+width, y+i+1);
+        st7735_writecmd(ST7735_RAMWR);
+        for (unsigned char j=0; j<width; j++)
+        {
+            st7735_writedat((*bm)>>8);
+            st7735_writedat(*bm);
+
+            bm++;
+        }
+    }
+
+    st7735_writecmd(ST7735_NOP);
 }

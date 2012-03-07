@@ -91,5 +91,7 @@ void st7735_set_addrwindow(unsigned char x0, unsigned char y0,
 void st7735_fill_16(unsigned short color);
 void st7735_pixel(unsigned char x, unsigned char y, unsigned short color);
 
+void st7735_bitmap(unsigned char x, unsigned char y,
+                   unsigned char width, unsigned char height, unsigned short *bm);
 
 #endif

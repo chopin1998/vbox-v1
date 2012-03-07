@@ -5,6 +5,8 @@
 #define STX    '['               // 0x02
 #define ETX    ']'               // 0x03
 
+#define GPS_STX '$'
+#define EST     '\n'
 
 enum {IN_PACKET, OUT_PACKET};
 
@@ -17,7 +19,7 @@ typedef struct
     unsigned char buf[LINE_BUF_MAX];
     unsigned char index;
 } LINE_BUF_t;
-LINE_BUF_t LB_BT;
+LINE_BUF_t LB_BT, LB_GPS;
 
 
 void uart_process_init_linebuf(LINE_BUF_t *lb_t);

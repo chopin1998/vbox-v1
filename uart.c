@@ -45,21 +45,35 @@ ISR (UART_BT_RXC_vect)
     uart_join(&Q_BT, data);
 }
 
+ISR (UART_GPS_RXC_vect)
+{
+    unsigned char data;
+    data = UART_BT.DATA;
+
+    uart_join(&Q_GPS, data);
+}
 
 void uart_init(USART_t *dev)
 {
     UART_BT_PORT.DIRSET = UART_BT_TX;
     UART_BT_PORT.DIRCLR = UART_BT_RX;
-    
-    /* 115200bps @ 36Mhz */
-    // int bsel = 1186;
-    // unsigned char bscale = 10;
-    
 
-    /* 576000bps @ 36MHz */
-    int bsel = 186;
-    unsigned char bscale = 10;
-    /* 576000bps @ 36MHz */
+    UART_GPS_PORT.DIRSET = UART_GPS_TX;
+    UART_GPS_PORT.DIRCLR = UART_GPS_RX;
+    
+    int bsel;
+    unsigned char bscale;
+
+    if (dev == &UART_BT)
+    {
+        bsel = 186;
+        bscale = 10;            /* 576000 @ 36M */
+    }
+    else // if (dev == &UART_GPS)
+    {
+        bsel = 3734;
+        bscale = 12;            /* 9600 @ 36M */
+    }
     
     dev->CTRLC = USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
 

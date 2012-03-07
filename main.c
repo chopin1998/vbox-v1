@@ -28,15 +28,28 @@ void init_uart(void)
     uart_init(&UART_BT);
     uart_queue_init(&Q_BT);
 
+    uart_init(&UART_GPS);
+    uart_queue_init(&Q_GPS);
+
     uart_process_init_linebuf(&LB_BT);
     LB_BT.packet_status = OUT_PACKET;
+    uart_process_init_linebuf(&LB_GPS);
+    LB_GPS.packet_status = OUT_PACKET;
 
     fdevopen(_uart_sendc, NULL);
 }
 
 int main(void)
 {
-    unsigned char buf[32];
+    unsigned short bp[] = 
+        {
+            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),
+            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),
+            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),
+            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),
+            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),
+            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(255,0,0),
+        };
     
     clock_pll_init();
     clock_rtc_init();
@@ -45,6 +58,14 @@ int main(void)
     init_uart();
     
     st7735_init();
+    disp_line(10, 10, 40, 20, disp_16color(0, 255, 0));
+    disp_box(1, 50, 25, 30, disp_16color(0, 255, 255), 1);
+    disp_box(0, 100, 50, 45, disp_16color(255, 100, 255), 0);
+    disp_circle(70, 20, 10, disp_16color(0, 200, 100));
+    disp_circle(70, 20, 20, disp_16color(100, 200, 10));
+
+    st7735_bitmap(50, 50, 6, 6, bp);
+
     
     PMIC.CTRL |= PMIC_MEDLVLEX_bm | PMIC_LOLVLEX_bm | PMIC_RREN_bm;
     sei();
@@ -53,13 +74,35 @@ int main(void)
 
     for (;;)
     {
+        /*
+         * uart task
+         */
         uart_process_tick(&Q_BT, &LB_BT, uart_process_lb_bt, STX, ETX);
+        /* uart task */
 
+        
+        /*
+         * gps task
+         */
+        
+        /* gps task */
+
+        
+        /*
+         * global display func
+         */
+        
+        /* global display func */
+
+        
+        /*
+         * sleep, irq drive device back
+         */
         if (1)
         {
-            // SLEEP.CTRL = SLEEP_SEN_bm | SLEEP_SMODE_PSAVE_gc;
             SLEEP.CTRL = SLEEP_SEN_bm | SLEEP_SMODE_IDLE_gc;
             __asm__ __volatile__ ("sleep");
         }
+        /* sleep */
     }
 }
