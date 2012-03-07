@@ -66,9 +66,10 @@ int main(void)
     disp_circle(70, 20, 20, disp_16color(100, 200, 10));
 
     st7735_img(50, 50, 6, 6, img);
-    for (unsigned char i=0; i<12; i++)
+    for (unsigned char i=0; i<10; i++)
     {
-        st7735_bitmap(0+i*9, 150, &BM_FONT_8x8, i+32, disp_16color(20+i*15, 20+i*10, 20+i*5));
+        st7735_bitmap(0+i*8, 85, &BM_FONT_8x8, i+33, disp_16color(20+i*15, 20+i*10, 20+i*25));
+        st7735_bitmap(0+i*8, 145, &BM_FONT_8x8THIN, i+65, disp_16color(20+i*15, 20+i*10, 20+i*5));
     }
     
     PMIC.CTRL |= PMIC_MEDLVLEX_bm | PMIC_LOLVLEX_bm | PMIC_RREN_bm;
