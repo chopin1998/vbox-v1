@@ -164,7 +164,7 @@ void st7735_bitmap(unsigned char x, unsigned char y,
         st7735_writecmd(ST7735_RAMWR);
 
         c = *(bm->bitmap+index*bm->width+i);
-        printf("c-> 0x%02x\n", c);
+        // printf("c-> 0x%02x\n", c);
         for (unsigned char j=0; j<bm->height; j++)
         {   
             if (c & 0x01)

@@ -107,4 +107,3 @@ void uart_process_lb_bt(void)
     
     p_list_clear(para_head);
 }
-

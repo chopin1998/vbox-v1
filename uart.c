@@ -41,16 +41,17 @@ ISR (UART_BT_RXC_vect)
     unsigned char data;
     data = UART_BT.DATA;
 
-    // uart_sendc(&UART_USB, data);
     uart_join(&Q_BT, data);
 }
 
 ISR (UART_GPS_RXC_vect)
 {
     unsigned char data;
-    data = UART_BT.DATA;
+    data = UART_GPS.DATA;
 
     uart_join(&Q_GPS, data);
+
+    // uart_sendc(&UART_BT, data);
 }
 
 void uart_init(USART_t *dev)

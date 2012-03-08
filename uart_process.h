@@ -5,9 +5,6 @@
 #define STX    '['               // 0x02
 #define ETX    ']'               // 0x03
 
-#define GPS_STX '$'
-#define EST     '\n'
-
 enum {IN_PACKET, OUT_PACKET};
 
 

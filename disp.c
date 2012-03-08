@@ -149,6 +149,16 @@ void disp_circle(unsigned char cx, unsigned char cy,
     }
 }
 
+void disp_string(unsigned char x, unsigned char y,
+                 BM_t *bm, unsigned short color, unsigned short bg,
+                 unsigned char *buf)
+{
+    for (unsigned char i=0; i<strlen(buf); i++)
+    {
+        st7735_bitmap(x+i*bm->width, y, bm, *(buf+i)-32, color, bg);
+    }
+}
+
 unsigned short disp_16color(unsigned char r, unsigned char g, unsigned char b)
 {
     return  (r & 0xf8) << 8 | (g & 0xfc) << 3 | b >> 3;

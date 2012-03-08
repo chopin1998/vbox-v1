@@ -8,6 +8,9 @@
 #include "disp.h"
 #include "bitchar.h"
 
+#include "gps.h"
+
+
 void init_io(void)
 {
     
@@ -72,6 +75,8 @@ int main(void)
         st7735_bitmap(0+i*8, 145, &BM_FONT_8x8THIN, i+65, disp_16color(20+i*15, 20+i*10, 20+i*5), 0x0000);
     }
     
+    disp_string(10, 125, &BM_FONT_7x8, disp_16color(120, 20, 20), 0x0000, "ABCD+-*/xyzjpP");
+    
     PMIC.CTRL |= PMIC_MEDLVLEX_bm | PMIC_LOLVLEX_bm | PMIC_RREN_bm;
     sei();
 
@@ -89,7 +94,7 @@ int main(void)
         /*
          * gps task
          */
-        
+        uart_process_tick(&Q_GPS, &LB_GPS, uart_process_lb_gps, GPS_STX, GPS_ETX);
         /* gps task */
 
         
