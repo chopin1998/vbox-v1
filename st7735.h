@@ -104,6 +104,6 @@ void st7735_img(unsigned char x, unsigned char y,
 
 void st7735_bitmap(unsigned char x, unsigned char y,
                    BM_t *bm, unsigned char index,
-                   unsigned short color);
+                   unsigned short color, unsigned short bg);
 
 #endif

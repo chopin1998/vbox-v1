@@ -1,5 +1,5 @@
-#ifndef _BITMAP_H
-#define _BITMAP_H
+#ifndef _BITCHAR_H
+#define _BITCHAR_H
 
 #include "st7735.h"
 

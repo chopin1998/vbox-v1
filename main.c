@@ -6,7 +6,7 @@
 #include "io.h"
 
 #include "disp.h"
-#include "bitmap.h"
+#include "bitchar.h"
 
 void init_io(void)
 {
@@ -68,8 +68,8 @@ int main(void)
     st7735_img(50, 50, 6, 6, img);
     for (unsigned char i=0; i<10; i++)
     {
-        st7735_bitmap(0+i*8, 85, &BM_FONT_8x8, i+33, disp_16color(20+i*15, 20+i*10, 20+i*25));
-        st7735_bitmap(0+i*8, 145, &BM_FONT_8x8THIN, i+65, disp_16color(20+i*15, 20+i*10, 20+i*5));
+        st7735_bitmap(0+i*8, 85, &BM_FONT_8x8, i+33, disp_16color(20+i*15, 20+i*10, 20+i*25), 0x0000);
+        st7735_bitmap(0+i*8, 145, &BM_FONT_8x8THIN, i+65, disp_16color(20+i*15, 20+i*10, 20+i*5), 0x0000);
     }
     
     PMIC.CTRL |= PMIC_MEDLVLEX_bm | PMIC_LOLVLEX_bm | PMIC_RREN_bm;

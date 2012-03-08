@@ -154,7 +154,7 @@ void st7735_img(unsigned char x, unsigned char y,
 
 void st7735_bitmap(unsigned char x, unsigned char y,
                    BM_t *bm, unsigned char index,
-                   unsigned short color)
+                   unsigned short color, unsigned short bg)
 {
     unsigned char c;
     
@@ -174,8 +174,8 @@ void st7735_bitmap(unsigned char x, unsigned char y,
             }
             else
             {
-                st7735_writedat(0x00);
-                st7735_writedat(0x00);
+                st7735_writedat(bg>>8);
+                st7735_writedat(bg);
             }
             c>>=1;
         }

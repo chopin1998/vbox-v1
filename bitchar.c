@@ -1,4 +1,4 @@
-#include "bitmap.h"
+#include "bitchar.h"
 
 
 
