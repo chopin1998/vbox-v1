@@ -7,48 +7,125 @@
 GPS_t gps;
 
 
-void uart_process_lb_gps(void)
+void gps_process(void)
 {
-    P_LIST_t *para_head, *curr;
-    char *p = NULL;
-    unsigned char p_count = 0;
+    char para[24][16];
+    unsigned char p_count=0, p_sub_count=0;
+    unsigned char i, rev;
+    unsigned char *p_buf = LB_GPS.buf;
 
-    para_head = (P_LIST_t *)malloc(sizeof(P_LIST_t));
-
-    p = strtok(&LB_GPS.buf[0], ",");
-    curr = para_head;
-
-    while (p)
+    /* init */
+    for (i=0; i<24; i++)
     {
-        p_count++;
-
-        curr->para = p;
-        curr->next = (P_LIST_t *)malloc(sizeof(P_LIST_t));
-        curr = curr->next;
-
-        p = strtok(NULL, "|");
+        para[i][0] = 0x0;
     }
-    curr->next = NULL;
 
-    if ( !strcmp(para_head->para, "GPGGA") )
+    /* spliting */
+    while (*p_buf)
     {
-        gps.gga_updated = 1;
+        rev = *p_buf;
+        
+        switch (rev)
+        {
+        case ',':
+            if (p_sub_count == 0)
+            {
+                para[p_count][p_sub_count] = ' ';
+                p_sub_count++;
+            }
+            
+            para[p_count][p_sub_count] = 0x0;            
+            p_count++;
+            p_sub_count = 0;
+            
+            if (p_count >= 23) 
+            {
+                p_count = 0;
+                p_sub_count = 0;
+            }
+            break;
 
-        /*
+        case '\r':
+            para[p_count][p_sub_count] = 0x0;
+            break;
+            
+        default:
+            para[p_count][p_sub_count] = rev;
+            p_sub_count++;
+            if (p_sub_count >= 15)
+            {
+                p_sub_count = 0;
+            }
+            break;
+        }
+
+        p_buf++;
+    }
+
+    /* processing */
+    /*
+    for (i=0; i<24; i++)
+    {
+        if (!para[i][0])
+        {
+            break;
+        }
+
+        printf("%s|", para[i]);
+    }
+    printf("\n");
+    */
+
+    if (!strcmp(para[0], "GPGGA"))
+    { // provides the current Fix data
+        gps.gga_updated = 1;
+        
         strncpy(gps.utc, para[1], 10);
         strncpy(gps.latitude, para[2], 9);
-        strncpy(gps.latitude_polar, para[3], 1);
+        strncpy(gps.ns_indicator, para[3], 1);
         strncpy(gps.longitude, para[4], 10);
-        strncpy(gps.longitude_polar, para[5], 1);
-        strncpy(gps.quality, para[6], 1);
-        strncpy(gps.satellity_number, para[7], 2);
-        */
+        strncpy(gps.ew_indicator, para[5], 1);
+        strncpy(gps.pos_fix_indicator, para[6], 1);
+        strncpy(gps.satellites_used, para[7], 2);
+
+        printf("%s, %s, %s, %s, %s, %s, %s\n",
+               gps.utc, gps.latitude, gps.ns_indicator,
+               gps.longitude, gps.ew_indicator, gps.pos_fix_indicator,
+               gps.satellites_used);
+    }
+    else if (!strcmp(para[0], "GPGSA"))
+    { // provides the satellite status data
+    }
+    else if (!strcmp(para[0], "GPRMC"))
+    { // provides the minimum gps sentences info.
+    }
+    else if (!strcmp(para[0], "GPGSV"))
+    {
+    }
+    else if (!strcmp(para[0], "GPGLL"))
+    {
+    }
+    else if (!strcmp(para[0], "GPVTG"))
+    {
     }
     else
     {
-        printf("got a %s\n", para_head->para);
+    }
+}
+
+unsigned char gps_gga_updated(void)
+{
+    unsigned char rev;
+    
+    if (gps.gga_updated)
+    {
+        rev = 1;
+        gps.gga_updated = 0;
+    }
+    else
+    {
+        rev = 0;
     }
 
-    
-    p_list_clear(para_head);
+    return rev;
 }

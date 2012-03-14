@@ -9,6 +9,9 @@ typedef struct _p_list
 } P_LIST_t;
 void p_list_clear(P_LIST_t *head);
 
+char* p_list_para(P_LIST_t *head, unsigned char index);
+
+
 void hexed_to_plain(const unsigned char *hexed, unsigned char *plain);
 void plain_to_hexed(const unsigned char *plain, const unsigned int len,
                     unsigned char *hexed);

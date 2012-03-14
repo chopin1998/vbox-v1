@@ -93,6 +93,23 @@ void p_list_clear(P_LIST_t *head)
     }
 }
 
+char * p_list_para(P_LIST_t *head, unsigned char index)
+{
+    P_LIST_t *curr;
+
+    curr = head;
+    for (unsigned char i=0; i<index; i++)
+    {
+        if (curr->para == NULL)
+        {
+            return NULL;
+        }
+        curr = curr->next;
+    }
+
+    return curr->para;
+}
+
 void limit_i(int *val, int bottom, int top)
 {
     if (*val < bottom)
