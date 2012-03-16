@@ -4,7 +4,7 @@
 #include "spi.h"
 
 
-unsigned char spi_writeread(SPI_t *dev, unsigned char data)
+inline unsigned char spi_writeread(SPI_t *dev, unsigned char data)
 {
     dev->DATA = data;
     loop_until_bit_is_set(dev->STATUS, SPI_IF_bp);
