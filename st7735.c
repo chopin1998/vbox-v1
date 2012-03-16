@@ -1,22 +1,14 @@
 #include "common.h"
 #include "st7735.h"
 #include "io.h"
-
-static unsigned char spi_writeread(unsigned char data);
-
-static unsigned char spi_writeread(unsigned char data)
-{
-    ST7735_SPI.DATA = data;
-    loop_until_bit_is_set(ST7735_SPI.STATUS, SPI_IF_bp);
-    return ST7735_SPI.DATA;
-}
+#include "spi.h"
 
 void st7735_writecmd(unsigned char cmd)
 {
     ST7735_CS_ON;
     ST7735_CMD;
 
-    spi_writeread(cmd);
+    spi_writeread(&ST7735_SPI, cmd);
 
     ST7735_CS_OFF;
 }
@@ -26,7 +18,7 @@ void st7735_writedat(unsigned char dat)
     ST7735_CS_ON;
     ST7735_DAT;
 
-    spi_writeread(dat);
+    spi_writeread(&ST7735_SPI, dat);
 
     ST7735_CS_OFF;
 }
@@ -54,7 +46,7 @@ void st7735_init(void)
     ST7735_SD_CS_OFF;
 
     /* init spi */
-    ST7735_SPI.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm;
+    spi_init(&ST7735_SPI);
     /* init spi */
 
     /* init lcd */

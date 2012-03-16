@@ -30,7 +30,7 @@ void gps_process(void)
         case ',':
             if (p_sub_count == 0)
             {
-                para[p_count][p_sub_count] = ' ';
+                para[p_count][p_sub_count] = 0x00;
                 p_sub_count++;
             }
             
@@ -87,6 +87,14 @@ void gps_process(void)
         strncpy(gps.ew_indicator, para[5], 1);
         strncpy(gps.pos_fix_indicator, para[6], 1);
         strncpy(gps.satellites_used, para[7], 2);
+        strncpy(gps.hdop, para[8], 3);
+        strncpy(gps.altitude, para[9], 3);
+        strncpy(gps.altitude_units, para[10], 1);
+        strncpy(gps.geoid_separation, para[11], 9);
+        strncpy(gps.geoid_units, para[12], 1);
+        strncpy(gps.age_of_diff_corr, para[13], 9);
+        strncpy(gps.diff_ref_station_id, para[14], 4);
+        
 
         printf("%s, %s, %s, %s, %s, %s, %s\n",
                gps.utc, gps.latitude, gps.ns_indicator,
