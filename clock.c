@@ -5,10 +5,11 @@
 
 
 volatile int rtc_interval = 0;
-
+volatile unsigned char rtc_flag = 0;
 
 ISR (RTC_OVF_vect)
-{    
+{
+    rtc_flag = 1;
     rtc_interval++;
 
     LED_PORT.OUTTGL = LED1;

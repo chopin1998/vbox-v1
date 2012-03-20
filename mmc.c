@@ -18,8 +18,8 @@
 #define SOCKWP		1           /* write protect */
 #define SOCKINS		1           /* card in detector */
 
-#define FCLK_SLOW()
-#define FCLK_FAST()
+#define FCLK_SLOW() do { SD_SPI.CTRL |= 0x03; /*SD_SPI.CTRL &= ~0x80;*/ } while (0)
+#define FCLK_FAST() do { SD_SPI.CTRL &= ~0x03; /*SD_SPI.CTRL |= 0x80;*/ } while (0)
 
 /*
  * definitions for MMC/SDC command
@@ -60,8 +60,8 @@ static BYTE CardType;			/* card type flags */
 
 
 /*
-/* wait for card ready
-*/
+ * wait for card ready
+ */
 static int wait_ready (void)	/* 1:OK, 0:Timeout */
 {
 	BYTE d;
@@ -513,6 +513,18 @@ DRESULT disk_ioctl (
 	return res;
 }
 
+DWORD get_fattime (void)
+{
+
+
+    return    ((2007UL-1980) << 25)    // Year = 2007
+        | (6UL << 21)            // Month = June
+        | (5UL << 16)            // Day = 5
+        | (11U << 11)            // Hour = 11
+        | (38U << 5)            // Min = 38
+        | (0U >> 1)                // Sec = 0
+        ;
+}
 
 
 /*-----------------------------------------------------------------------*/

@@ -13,5 +13,5 @@ inline unsigned char spi_writeread(SPI_t *dev, unsigned char data)
 
 void spi_init(SPI_t *dev)
 {
-    dev->CTRL = SPI_ENABLE_bm | SPI_MASTER_bm;   
+    dev->CTRL = SPI_ENABLE_bm | SPI_MASTER_bm;
 }

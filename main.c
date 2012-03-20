@@ -11,6 +11,15 @@
 #include "gps.h"
 #include "task.h"
 
+#include "ff/src/ff.h"
+
+
+FATFS g_sFatFs;
+DIR g_sDirObject;
+FILINFO g_sFileInfo;
+FIL g_sFILEObject;
+
+
 void init_io(void)
 {
     
@@ -70,6 +79,9 @@ void disp_show(void)
 
 int main(void)
 {
+    FRESULT fresult;
+    unsigned char rev=0;
+
     
     clock_pll_init();
     clock_rtc_init();
@@ -85,8 +97,33 @@ int main(void)
 
     clock_interval_clear();
 
+    fresult = f_mount(0, &g_sFatFs);
+    if (fresult != FR_OK)
+    {
+        printf("mount error!!\n");
+        return -1;
+    }
+
+    fresult = f_opendir(&g_sDirObject, "/");
+    if(fresult != FR_OK)
+    {
+        printf("opendir error\n");
+        return -1;
+    }
+    
+    fresult = f_open(&g_sFILEObject, "IAMHERE.OK", FA_OPEN_ALWAYS | FA_WRITE);
+    fresult = f_write(&g_sFILEObject, "!!!!!!!!!!!!!!!!\n\n\n\n", 20, &rev);
+    printf("wrote: %d\n", rev);
+    f_sync(&g_sFILEObject);
+    
     for (;;)
     {
+        if (rtc_flag)
+        {
+            rtc_flag = 0;
+            disk_timerproc();
+        }
+        
         /*
          * uart task
          */

@@ -2,8 +2,9 @@
 #define _CLOCK_H 1
 
 
-#define RTC_INTERVAL (32768 - 1)
+#define RTC_INTERVAL (3276 - 1)
 
+extern volatile unsigned char rtc_flag;
 
 void clock_pll_init(void);
 void clock_rtc_init(void);
