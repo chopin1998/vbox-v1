@@ -11,14 +11,6 @@
 #include "gps.h"
 #include "task.h"
 
-#include "ff/src/ff.h"
-
-
-FATFS g_sFatFs;
-DIR g_sDirObject;
-FILINFO g_sFileInfo;
-FIL g_sFILEObject;
-
 
 void init_io(void)
 {
@@ -52,34 +44,8 @@ void init_uart(void)
     fdevopen(_uart_sendc, NULL);
 }
 
-/*
-void disp_show(void)
-{
-    unsigned short img[] = 
-        {
-            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(0,255,0),disp_16color(0,255,0),disp_16color(0,0,255),disp_16color(0,0,255),
-            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(0,255,0),disp_16color(0,255,0),disp_16color(0,0,255),disp_16color(0,0,255),
-            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(0,255,0),disp_16color(0,255,0),disp_16color(0,0,255),disp_16color(0,0,255),
-            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(0,255,0),disp_16color(0,255,0),disp_16color(0,0,255),disp_16color(0,0,255),
-            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(0,255,0),disp_16color(0,255,0),disp_16color(0,0,255),disp_16color(0,0,255),
-            disp_16color(255,0,0),disp_16color(255,0,0),disp_16color(0,255,0),disp_16color(0,255,0),disp_16color(0,0,255),disp_16color(0,0,255),
-        };
-
-    disp_line(10, 10, 40, 20, disp_16color(0, 255, 0));
-    disp_box(1, 50, 25, 30, disp_16color(0, 255, 255), 1);
-    disp_box(0, 100, 50, 45, disp_16color(255, 100, 255), 0);
-    disp_circle(70, 20, 10, disp_16color(0, 200, 100));
-    disp_circle(70, 20, 20, disp_16color(100, 200, 10));
-
-    st7735_img(50, 50, 6, 6, img);
-    
-    disp_string(10, 85, &BM_FONT_7x8, disp_16color(120, 20, 20), 0xffff, "ABCD+-/*xyzjpP_");    
-}
-*/
-
 int main(void)
 {
-    FRESULT fresult;
     unsigned char rev=0;
 
     
@@ -97,24 +63,10 @@ int main(void)
 
     clock_interval_clear();
 
-    fresult = f_mount(0, &g_sFatFs);
-    if (fresult != FR_OK)
+    if (task_init())
     {
-        printf("mount error!!\n");
         return -1;
     }
-
-    fresult = f_opendir(&g_sDirObject, "/");
-    if(fresult != FR_OK)
-    {
-        printf("opendir error\n");
-        return -1;
-    }
-    
-    fresult = f_open(&g_sFILEObject, "IAMHERE.OK", FA_OPEN_ALWAYS | FA_WRITE);
-    fresult = f_write(&g_sFILEObject, "!!!!!!!!!!!!!!!!\n\n\n\n", 20, &rev);
-    printf("wrote: %d\n", rev);
-    f_sync(&g_sFILEObject);
     
     for (;;)
     {

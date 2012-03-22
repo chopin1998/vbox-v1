@@ -3,6 +3,7 @@
 
 
 void task_screen(void);
+char task_init(void);
 
 
 #endif
