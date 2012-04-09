@@ -1,15 +1,30 @@
 #ifndef _GPS_H
 #define _GPS_H
 
+#include "ds1302.h"
+
 #define GPS_STX '$'
 #define GPS_ETX '\n'
+
+
+typedef struct
+{
+    unsigned char hour[2];
+    unsigned char min[2];
+    unsigned char sec[2];
+    unsigned char dot;
+    unsigned char msec[3];
+} GPS_TIME_t;
 
 typedef struct
 {
     /* GGA */
     unsigned char gga_updated;
     
-    unsigned char utc[11];      /* time in utc, hhmmss.sss */
+    // unsigned char utc[11];
+    /* time in utc, hhmmss.sss */
+    GPS_TIME_t utc;
+    
     unsigned char latitude[10]; /* ddmm.mmmm */
     unsigned char ns_indicator[2]; /* North or South */
     unsigned char longitude[11];   /* dddmm.mmmm */
@@ -34,5 +49,6 @@ extern GPS_t gps;
 void gps_process(void);
 unsigned char gps_gga_updated(void);
 
+void gps_synctime(RTC_TIME_t *tm);
 
 #endif

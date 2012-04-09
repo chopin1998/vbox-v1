@@ -80,7 +80,9 @@ void gps_process(void)
     { // provides the current Fix data
         gps.gga_updated = 1;
         
-        strncpy(gps.utc, para[1], 10);
+        // strncpy(gps.utc, para[1], 10);
+        memcpy(&(gps.utc), para[1], 10);
+        
         strncpy(gps.latitude, para[2], 9);
         strncpy(gps.ns_indicator, para[3], 1);
         strncpy(gps.longitude, para[4], 10);
@@ -97,7 +99,7 @@ void gps_process(void)
         
 
         printf("%s, %s, %s, %s, %s, %s, %s\n",
-               gps.utc, gps.latitude, gps.ns_indicator,
+               &(gps.utc), gps.latitude, gps.ns_indicator,
                gps.longitude, gps.ew_indicator, gps.pos_fix_indicator,
                gps.satellites_used);
     }
@@ -136,4 +138,13 @@ unsigned char gps_gga_updated(void)
     }
 
     return rev;
+}
+
+void gps_synctime(RTC_TIME_t *tm)
+{
+    // printf("gps_synctime: %s\n", &(gps.utc));
+
+    tm->tm_hour = (gps.utc.hour[0]-48)*10 + gps.utc.hour[1]-48;
+    tm->tm_min = (gps.utc.min[0]-48)*10 + gps.utc.min[1]-48;
+    tm->tm_sec = (gps.utc.sec[0]-48)*10 + gps.utc.sec[1]-48;
 }

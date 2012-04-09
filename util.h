@@ -18,4 +18,6 @@ void limit_f(float *val, float bottom, float top);
 unsigned bcd2bin(unsigned char val);
 unsigned char bin2bcd(unsigned val);
 
+unsigned char week_of_day(unsigned int year, unsigned char mon, unsigned char day);
+
 #endif

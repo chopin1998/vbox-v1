@@ -3,7 +3,7 @@
 #include "disp.h"
 #include "bitchar.h"
 #include "gps.h"
-
+#include "ds1302.h"
 #include "ff/src/ff.h"
 
 FATFS g_sFatFs;
@@ -51,7 +51,7 @@ void task_screen(void)
     if (gps_gga_updated())
     {
         disp_string(5, 5, &BM_FONT_7x8,
-                    disp_16color(220, 20, 20), disp_16color(128, 64, 160), gps.utc);
+                    disp_16color(220, 20, 20), disp_16color(128, 64, 160), &(gps.utc));
 
         disp_string(10, 20, &BM_FONT_8x8THIN,
                     disp_16color(20, 20, 20), 0xffff, gps.latitude);

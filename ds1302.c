@@ -92,16 +92,6 @@ unsigned char ds1302_read_time(RTC_TIME_t *tm)
     tm->tm_mon  = bcd2bin(ds1302_read(DS1302_MON)) - 1;
     tm->tm_year = bcd2bin(ds1302_read(DS1302_YEAR));
 
-    /*
-    if (tm->tm_year < 70)
-        tm->tm_year += 100;
-    */
-
-    printf("tm is secs=%d, mins=%d, hours=%d, "
-           "mday=%d, mon=%d, year=%d, wday=%d\n",
-           tm->tm_sec, tm->tm_min, tm->tm_hour,
-           tm->tm_mday, tm->tm_mon + 1, tm->tm_year, tm->tm_wday);
-
     return rtc_valid_tm(tm);
 }
 

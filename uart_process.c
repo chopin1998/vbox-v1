@@ -4,6 +4,7 @@
 #include "util.h"
 
 #include "ds1302.h"
+#include "gps.h"
 
 void uart_process_init_linebuf(LINE_BUF_t *lb)
 {
@@ -104,27 +105,43 @@ void uart_process_lb_bt(void)
     {
         RTC_TIME_t tm;
         ds1302_read_time(&tm);
+
+        printf("tm is secs=%d, mins=%d, hours=%d, "
+               "mday=%d, mon=%d, year=%d, wday=%d\n",
+               tm.tm_sec, tm.tm_min, tm.tm_hour,
+               tm.tm_mday, tm.tm_mon + 1, tm.tm_year+2000, tm.tm_wday);
     }
-    /*
     else if ( !strcmp(para_head->para, "settime") )
     {
+        unsigned char year;
+        unsigned char mon;
+        unsigned char day;
         RTC_TIME_t tm;
-        tm.tm_sec = 50;
-        tm.tm_min = 31;
-        tm.tm_hour = 13;
-        tm.tm_mday = 5;
-        tm.tm_mon = 4-1;
-        tm.tm_year = 12;
-        tm.tm_wday = 4;
-        ds1302_set_time(&tm);
-        printf("done.\n");
+
+        if (p_count != 4)
+        {
+            printf("lack of parameter(s)\n");
+        }
+        else
+        {
+            gps_synctime(&tm);
+            
+            tm.tm_year = atoi(para_head->next->para);
+            tm.tm_mon = atoi(para_head->next->next->para);
+            tm.tm_mday = atoi(para_head->next->next->next->para);
+            tm.tm_wday = week_of_day(tm.tm_year+2000, tm.tm_mon, tm.tm_mday);
+            ds1302_set_time(&tm);
+            printf("done.\n");
+        }
     }
-    */
     else
     {
         printf("UNKNOW FUNC: %s\n", para_head->para);
     }
 
-    
+    ////////////////
+    ////////////////
     p_list_clear(para_head);
+    ////////////////
+    ////////////////
 }
