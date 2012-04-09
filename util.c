@@ -76,7 +76,7 @@ unsigned char week_of_day(unsigned int year, unsigned char mon, unsigned char da
     signed char rev;
     
     unsigned char c = year / 100;
-    unsigned char y = year - c*100;
+    unsigned char y = year % 100;
 
     rev = y + y/4 + c/4 - 2*c + (26*(mon+1)/10) + day - 1;
     rev %= 7;
