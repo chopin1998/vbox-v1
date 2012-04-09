@@ -10,6 +10,9 @@
 
 #include "gps.h"
 #include "task.h"
+#include "ds1302.h"
+
+
 
 
 void init_io(void)
@@ -51,6 +54,7 @@ int main(void)
     
     clock_pll_init();
     clock_rtc_init();
+    ds1302_init();
     
     init_io();
     init_uart();
@@ -67,7 +71,7 @@ int main(void)
     {
         return -1;
     }
-    
+
     for (;;)
     {
         if (rtc_flag)

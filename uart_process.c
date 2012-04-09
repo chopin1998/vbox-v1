@@ -3,6 +3,7 @@
 #include "uart_process.h"
 #include "util.h"
 
+#include "ds1302.h"
 
 void uart_process_init_linebuf(LINE_BUF_t *lb)
 {
@@ -99,6 +100,26 @@ void uart_process_lb_bt(void)
     {
         printf("hello\n");
     }
+    else if ( !strcmp(para_head->para, "time") )
+    {
+        RTC_TIME_t tm;
+        ds1302_read_time(&tm);
+    }
+    /*
+    else if ( !strcmp(para_head->para, "settime") )
+    {
+        RTC_TIME_t tm;
+        tm.tm_sec = 50;
+        tm.tm_min = 31;
+        tm.tm_hour = 13;
+        tm.tm_mday = 5;
+        tm.tm_mon = 4-1;
+        tm.tm_year = 12;
+        tm.tm_wday = 4;
+        ds1302_set_time(&tm);
+        printf("done.\n");
+    }
+    */
     else
     {
         printf("UNKNOW FUNC: %s\n", para_head->para);

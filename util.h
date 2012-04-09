@@ -12,12 +12,10 @@ void p_list_clear(P_LIST_t *head);
 char* p_list_para(P_LIST_t *head, unsigned char index);
 
 
-void hexed_to_plain(const unsigned char *hexed, unsigned char *plain);
-void plain_to_hexed(const unsigned char *plain, const unsigned int len,
-                    unsigned char *hexed);
-
 void limit_i(int *val, int bottom, int top);
 void limit_f(float *val, float bottom, float top);
 
+unsigned bcd2bin(unsigned char val);
+unsigned char bin2bcd(unsigned val);
 
 #endif
