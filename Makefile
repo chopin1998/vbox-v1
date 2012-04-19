@@ -11,6 +11,7 @@ TARGET = main
 SRC = main.c clock.c
 SRC += uart.c uart_process.c util.c disp.c st7735.c bitchar.c gps.c task.c spi.c ds1302.c
 SRC += ff/src/ff.c mmc.c
+SRC += imu_sensor.c tilt.c twi_master_driver.c
 ASRC = 
 OPT = 2
 
